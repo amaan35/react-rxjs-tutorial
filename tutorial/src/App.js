@@ -19,15 +19,20 @@ function App() {
   useEffect(() => {
     // getting the button by its id in DOM
     const btn = document.getElementById("button1");
-    if (btn) {
-      // creating our observable without creation functions like fromEvent as we did before
-      // and calling observer next function for our button click
-      const observable = new Observable((obs) => {
-        btn.onclick = (event) => {
-          obs.next(event);
-        };
-      }).subscribe(observer);
+    // creating our observable without creation functions like fromEvent as we did before
+    // and calling observer next function for our button click
+    const observable = new Observable((obs) => {
+      btn.onclick = (event) => {
+        obs.next(event);
+      };
+    }).subscribe(observer);
+    const unsubsribeBtn = () => {
+      console.log('Btn is unsubscribed after 5 seconds');
+      observable.unsubscribe();
     }
+    setTimeout(() => {
+      unsubsribeBtn();
+    }, 5000);
   }, []);
 
   return (
