@@ -16,7 +16,7 @@ function App() {
   };
 
   // creating our observable without creation functions like fromEvent as we did before
-  const observable = new Observable((obs)=>obs.next('next called')).subscribe(observer);
+  const observable = new Observable((obs)=>{obs.next('next called'); obs.error('error occurred')}).subscribe(observer);
 
   return (
     <div className="App">
