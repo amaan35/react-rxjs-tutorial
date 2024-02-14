@@ -1,11 +1,12 @@
+import { useEffect } from "react";
 import "./App.css";
 import { Observable } from "rxjs";
 
 function App() {
   // defining an observer with next, error and complete functions
   const observer = {
-    next: function (value) {
-      console.log(value);
+    next: function (event) {
+      console.log(event.target.value);
     },
     error: function (error) {
       console.log(error);
@@ -15,8 +16,19 @@ function App() {
     },
   };
 
-  // creating our observable without creation functions like fromEvent as we did before
-  const observable = new Observable((obs)=>{obs.next('next called'); obs.error('error occurred')}).subscribe(observer);
+  useEffect(() => {
+    // getting the button by its id in DOM
+    const btn = document.getElementById("button1");
+    if (btn) {
+      // creating our observable without creation functions like fromEvent as we did before
+      // and calling observer next function for our button click
+      const observable = new Observable((obs) => {
+        btn.onclick = (event) => {
+          obs.next(event);
+        };
+      }).subscribe(observer);
+    }
+  }, []);
 
   return (
     <div className="App">
