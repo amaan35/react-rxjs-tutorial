@@ -1,50 +1,25 @@
 import { useEffect } from "react";
 import "./App.css";
-import { Observable } from "rxjs";
+import { interval } from 'rxjs'
 
 function App() {
-  // defining an observer with next, error and complete functions
+  // creating an observable using interval creation function
+  const observable = interval(1000);
+
+  // creating our observer
   const observer = {
-    next: function (event) {
-      console.log(event.target.value);
-    },
-    error: function (error) {
-      console.log(error);
-    },
-    complete: function () {
-      console.log("complete");
-    },
-  };
-
-  useEffect(() => {
-    // getting the button by its id in DOM
-    const btn = document.getElementById("button1");
-    // creating our observable without creation functions like fromEvent as we did before
-    // and calling observer next function for our button click
-    const observable = new Observable((obs) => {
-      btn.onclick = (event) => {
-        obs.next(event);
-      };
-    }).subscribe(observer);
-    const unsubsribeBtn = () => {
-      console.log('Btn is unsubscribed after 5 seconds');
-      observable.unsubscribe();
+    next: function(value){
+      console.log(value)
     }
-    setTimeout(() => {
-      unsubsribeBtn();
-    }, 5000);
-  }, []);
+  }
 
+  // connecting the two and starting execution
+  observable.subscribe(observer);
+  
   return (
     <div className="App">
       <h1>React and rxJS tutorial</h1>
-      <button id="button1" value="button1 clicked">
-        button1
-      </button>
-      <br />
-      <button id="button2" value="button2 clicked">
-        button2
-      </button>
+      <h2>see console</h2>
     </div>
   );
 }
