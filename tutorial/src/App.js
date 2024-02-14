@@ -14,16 +14,16 @@ function App() {
     if (btn) {
       //using javascript to react to event
       // btn.addEventListener("click", () => console.log("clicked"));
-      fromEvent(btn, 'click').subscribe(()=>console.log('clicked using fromEvent'))
+      fromEvent(btn, 'click').subscribe((event)=>console.log('value of event : ', event.target.value))
     }
   }, []);
 
   return (
     <div className="App">
       <h1>React and rxJS tutorial</h1>
-      <button id="button1">button1</button>
+      <button id="button1" value='button1 clicked'>button1</button>
       <br />
-      <button id="button2">button2</button>
+      <button id="button2" value='button2 clicked'>button2</button>
     </div>
   );
 }
