@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import "./App.css";
 import { interval, map, throttleTime } from 'rxjs'
 
@@ -14,9 +13,13 @@ function App() {
   }
 
   // connecting the two and starting execution using map and throttle time operators
-  observable.pipe(map((value)=>{
+  const newObservable = observable.pipe(map((value)=>{
     return value*2;
   }), throttleTime(2000)).subscribe(observer);
+
+  setTimeout(()=>{
+    newObservable.unsubscribe();
+  }, 10000)
   
   return (
     <div className="App">
