@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import "./App.css";
-import { interval } from 'rxjs'
+import { interval, map } from 'rxjs'
 
 function App() {
   // creating an observable using interval creation function
-  const observable = interval(1000);
+  const observable = interval(2000);
 
   // creating our observer
   const observer = {
@@ -14,7 +14,9 @@ function App() {
   }
 
   // connecting the two and starting execution
-  observable.subscribe(observer);
+  observable.pipe(map((value)=>{
+    return value*2;
+  })).subscribe(observer);
   
   return (
     <div className="App">
