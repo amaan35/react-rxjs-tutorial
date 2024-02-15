@@ -1,26 +1,25 @@
 import "./App.css";
-import { interval, map, throttleTime } from 'rxjs'
+import { ajax } from 'rxjs/ajax'
 
 function App() {
-  // creating an observable using interval creation function
-  const observable = interval(2000);
-
-  // creating our observer
-  const observer = {
-    next: function(value){
-      console.log(value)
-    }
-  }
-
-  // connecting the two and starting execution using map and throttle time operators
-  const newObservable = observable.pipe(map((value)=>{
-    return value*2;
-  }), throttleTime(2000)).subscribe(observer);
-
-  setTimeout(()=>{
-    newObservable.unsubscribe();
-  }, 10000)
   
+  // receiving some dummy data using ajax operator of rxjs
+  // const http$ = ajax('https://jsonplaceholder.typicode.com/posts/');
+  //  const http$ = ajax.get('https://jsonplaceholder.typicode.com/posts/');
+  const http$ = ajax({
+    url: 'https://jsonplaceholder.typicode.com/posts/',
+    method: 'GET',
+    responseType: 'json'
+  })
+
+  // subscribing and displaying our response in console
+  // http$.subscribe((data)=>console.log(data.response))
+
+  //to handle errors, we can subscribe using an observer which will be an object declaring error function
+  http$.subscribe({
+    next: (data) => console.log(data.response),
+    error: (error) => console.log(error)
+  })
   return (
     <div className="App">
       <h1>React and rxJS tutorial</h1>
